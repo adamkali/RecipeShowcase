@@ -14,7 +14,5 @@ services:
       - $DB_PASS
     image: surrealdb/surrealdb:latest
     ports:
-      - 3100:8000
-    volumes:
-      - ./mk_surrealdb/migrations.surql:/migrations.surql
+      - 8100:8000
 

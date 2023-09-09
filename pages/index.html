@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/out.css">
+    <link rel="stylesheet" href="/static/output.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/static/js/htmx.js"></script>
 </head>
-<body>
-    <div class="flex flex-1 justify-center w-full h-screen bg-slate-600
-        text-sky-300 p-8">
+<body class="bg-slate-600 text-sky-300 ">
+    <div class="flex flex-1 justify-center w-full h-screen p-8">
         <div class="flex flex-row text-3xl justify-center rounded-xl h-16 p-4
             text-orange-500">
-            <span>My Recipies</span>
+            <span>My Recipes</span>
+        </div>
+
+        <div
+            hx-get="/recipes"
+            hx-target="this"
+            hx-trigger="load"
+        >
         </div>
     </div>
 </body>
