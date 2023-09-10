@@ -2,12 +2,23 @@ package src
 
 import (
 	"fmt"
-	"html/template"
 	"os"
-	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/surrealdb/surrealdb.go"
 )
+
+type ErrorType struct { ErrorMessage string }
+
+func Err(what error, c *gin.Context) {
+    c.HTML(500, "error_template.tmpl", ErrorType{
+        ErrorMessage: what.Error(),
+    })
+}
+
+func OK(templ string, c *gin.Context, what interface{}) {
+    c.HTML(200, templ, what) 
+}
 
 func Migrate() (*surrealdb.DB, error) {
     var db *surrealdb.DB
@@ -52,19 +63,4 @@ func Migrate() (*surrealdb.DB, error) {
     }
 
     return db, nil
-}
-
-func RenderError(errorMessage string) string {
-    buf, err := template.New("error").Parse("templates/error_template.tmpl")
-    if err != nil {
-        return "Oops!"
-    }
-
-    var output strings.Builder
-    err = buf.Execute(&output, struct{ ErrorMessage string }{errorMessage})
-    if err != nil {
-        return "Oops"
-    }
-
-    return output.String()
 }
