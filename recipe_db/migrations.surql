@@ -204,10 +204,8 @@ CREATE recipe:def789ghi123 CONTENT {
     ingredients: [
         ingredients:00b2pg847d7b8r08t08t,
         ingredients:aoeui555snth,
-        ingredients:aoeui626snthd,
         ingredients:snth444aoeui,
         ingredients:aoeui555snth,
-        ingredients:aoeui626snthd,
         ingredients:snth444aoeui
     ],
     instructions: [

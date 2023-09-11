@@ -11,7 +11,7 @@ import (
 type ErrorType struct { ErrorMessage string }
 
 func Err(what error, c *gin.Context) {
-    c.HTML(500, "error_template.tmpl", ErrorType{
+    c.HTML(500, "utils/error_template.tmpl", ErrorType{
         ErrorMessage: what.Error(),
     })
 }

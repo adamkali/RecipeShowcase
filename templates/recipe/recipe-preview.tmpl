@@ -1,14 +1,44 @@
 {{ define "recipe/recipe-preview.tmpl" }}
-<div class="flex flex-col w-full">
+<div class="flex flex-col w-2/3">
     {{ range .RecipeList }}
-        <div class="w-32 mx-auto bg-slate-400 rounded-lg shadow-lg p-4
-        mb-4">
+        <div class="w-full mx-auto bg-gray-600 rounded-lg shadow-slate-900 shadow-lg p-4
+        mb-4 hover:scale-110 ease-in-out duration-150 transition-all">
             <h2 class="text-2xl font-semibold text-purple-400 mb-4">{{ .Name }}</h2>
             <div class="flex flex-wrap gap-2">
                 {{ range .Ingredients }}
-                    <span class="rounded-full bg-blue-200 px-2 py-1 text-sm">
+                    <span class="rounded-full bg-blue-400 text-blue-600 px-2 py-1 text-sm">
                         {{ .Name }}
                     </span>
+                {{ end }}
+                {{ range .Tags }}
+                    {{ if eq .ID "recipe_tag:00cge9564nt0d" }}
+                    <span class="rounded-full bg-blue-400 text-blue-600 px-2 py-1 text-sm">
+                    </span>
+                    {{ else if eq .ID "recipe_tag:aoeui626snthd" }}
+                    <span class="rounded-full bg-fuchsia-400 text-sky-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555dhtns" }}
+                    <span class="rounded-full bg-orange-500 text-orange-300 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555snthd" }}
+                    <span class="rounded-full bg-amber-700 text-amber-100 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555vwmbx" }}
+                    <span class="rounded-full bg-pink-400 text-red-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:lrc44555sntao" }};
+                    <span class="rounded-full bg-orange-950 text-slate-100 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:lrcgf555snthd" }}
+                    <span class="rounded-full bg-purple-800 text-red-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ end }}
                 {{ end }}
             </div>
         </div>
