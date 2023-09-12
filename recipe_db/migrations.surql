@@ -1,50 +1,49 @@
 DEFINE TABLE ingredients SCHEMAFULL PERMISSIONS NONE;
-DEFINE TABLE recipe SCHEMAFULL PERMISSIONS NONE;
+DEFINE TABLE recipe SCHEMALESS PERMISSIONS NONE;
 DEFINE TABLE recipe_step SCHEMAFULL PERMISSIONS NONE;
 DEFINE TABLE recipe_tag SCHEMALESS PERMISSIONS NONE;
 
-DEFINE FIELD recipe.name TYPE string ASSERT $value != NONE;
-DEFINE FIELD recipe.ingredients TYPE ARRAY<ingredients> ASSERT $value != NONE;
-DEFINE FIELD recipe.instructions TYPE ARRAY<object> ASSERT $value != NONE;
-DEFINE FIELD recipe.picture_url TYPE string ASSERT $value != NONE;
-DEFINE FIELD recipe.tags TYPE ARRAY<recipe_tag> $value != NONE;
+DEFINE FIELD name ON recipe TYPE string ASSERT $value != NONE;
+DEFINE FIELD ingredients ON recipe TYPE array;
+DEFINE FIELD instructions ON recipe TYPE array;
+DEFINE FIELD picture_url ON recipe TYPE string ASSERT $value != NONE;
 
-DEFINE FIELD ingredients.name TYPE string ASSERT $value != NONE;
-DEFINE FIELD ingredients.description string ASSERT $value != NONE;
+DEFINE FIELD name ON ingredients TYPE string ASSERT $value != NONE;
+DEFINE FIELD description ON ingredients TYPE string ASSERT $value != NONE;
 
-DEFINE FIELD recipe_tag.name TYPE string ASSERT $value != NONE;
+DEFINE FIELD name ON recipe_tag TYPE string ASSERT $value != NONE;
 
 CREATE recipe_tag:fgcrl555snthd CONTENT {
     name: "Dinner"
-}
+};
 
 CREATE recipe_tag:fgcrl555dhtns CONTENT {
     name: "Lunch"
-}
+};
 
 CREATE recipe_tag:fgcrl555vwmbx CONTENT {
     name: "Breakfast"
-}
+};
 
 CREATE recipe_tag:lrcgf555snthd CONTENT {
     name: "Savory"
-}
+};
 
 CREATE recipe_tag:lrcgf555snthd CONTENT {
     name: "Spicy"
-}
+};
 
 CREATE recipe_tag:aoeui626snthd CONTENT {
     name: "Sweet"
-}
+};
 
 CREATE recipe_tag:lrc44555sntao CONTENT {
     name: "Umami"
-}
+};
 
 CREATE recipe_tag:00cge9564nt0d CONTENT {
     name: "Desert"
-}
+};
 
 CREATE ingredients:00b2pg847d7b8r08t08t CONTENT {
     name: "Eggs",
@@ -130,36 +129,36 @@ CREATE ingredients:opq567rst890 CONTENT {
 CREATE ingredients:aoeu555snthd CONTENT {
     name: "Bacon",
     description: "Preferably thick cut, or any thick cut fatty meat."
-}
+};
 
 CREATE ingredients:snth444aoeui CONTENT {
     name: "Tomatoes",
     description: "Peferably San Marzano Tomatoes Peeled."
-}
+};
 
 CREATE ingredients:aoeui555snth CONTENT {
     name: "Spaghetti",
     description: "Any type will do",
-}
+};
 
 CREATE ingredients:snthd555aoeu CONTENT {
     name: "Oregano",
     description: "Any store brand dried Oregano will do; however, fresh oregano is the best!"
-}
+};
 
 -- Create recipes
-CREATE recipe:"abc123xyz456" CONTENT {
+CREATE recipe:abc123xyz456 CONTENT {
     name: "Classic Pancakes",
     ingredients: [
-        "ingredients:00b2pg847d7b8r08t08t",
-        "ingredients:123abc456xyz",
-        "ingredients:456def789uvw",
-        "ingredients:789ghi123lmn",
-        "ingredients:abc456def789",
-        "ingredients:uvw123xyz456",
-        "ingredients:lmn789pqr012",
-        "ingredients:pqr456stu789",
-        "ingredients:xyz789abc012"
+        ingredients:00b2pg847d7b8r08t08t,
+        ingredients:123abc456xyz,
+        ingredients:456def789uvw,
+        ingredients:789ghi123lmn,
+        ingredients:abc456def789,
+        ingredients:uvw123xyz456,
+        ingredients:lmn789pqr012,
+        ingredients:pqr456stu789,
+        ingredients:xyz789abc012
     ],
     instructions: [
         {
@@ -195,21 +194,19 @@ CREATE recipe:"abc123xyz456" CONTENT {
     ],
     picture_url: "images/pancakes.jpg",
     tags: [
-        "recipe_tag:fgcrl555snthd",
-        "recipe_tag:aoeui626snthd"
+        recipe_tag:fgcrl555snthd,
+        recipe_tag:aoeui626snthd
     ]
-}
+};
 
-CREATE recipe:"def789ghi123" CONTENT {
+CREATE recipe:def789ghi123 CONTENT {
     name: "Spaghetti Carbonara",
     ingredients: [
-        "ingredients:00b2pg847d7b8r08t08t",
-        "ingredients:aoeui555snth",
-        "ingredients:aoeui626snthd",
-        "ingredients:snth444aoeui",
-        "ingredients:aoeui555snth",
-        "ingredients:aoeui626snthd",
-        "ingredients:snth444aoeui"
+        ingredients:00b2pg847d7b8r08t08t,
+        ingredients:aoeui555snth,
+        ingredients:snth444aoeui,
+        ingredients:aoeui555snth,
+        ingredients:snth444aoeui
     ],
     instructions: [
         {
@@ -245,8 +242,7 @@ CREATE recipe:"def789ghi123" CONTENT {
     ],
     picture_url: "images/carbonara.jpg",
     tags: [
-        "recipe_tag:fgcrl555snthd",
-        "recipe_tag:lrcgf555snthd"
+        recipe_tag:fgcrl555snthd,
+        recipe_tag:lrcgf555snthd
     ]
-}
-
+};
