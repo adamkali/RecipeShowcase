@@ -29,6 +29,7 @@ type Recipe struct {
     Instructions []RecipeStep  `json:"instructions"`
     PictureURL   string        `json:"picture_url"`
     Tags         []RecipeTag   `json:"tags"`
+    Active       bool          `json:"active"`
 }
 
 type SurrealRecipe struct {
@@ -38,6 +39,7 @@ type SurrealRecipe struct {
     Instructions []RecipeStep   `json:"instructions"`
     PictureURL   string         `json:"picture_url"`
     Tags         []string       `json:"tags"`
+    Active       bool           `json:"active"`
 }
 
 // RecipeStep represents the recipe_step table.
@@ -68,6 +70,7 @@ func (sr SurrealRecipe) Convert(db *surrealdb.DB) (Recipe, error) {
         Instructions: sr.Instructions,
         Ingredients: []Ingredient{},
         Tags: []RecipeTag{},
+        Active: sr.Active,
     }
 
     for _, id := range(sr.Ingredients) {
@@ -157,10 +160,46 @@ func (rc RecipeController) GetRecipies(c *gin.Context) {
             src.Err(err, c)
             return
         }
-        results.RecipeList = append(results.RecipeList, r)
+        if r.Active {
+            results.RecipeList = append(results.RecipeList, r)
+        }
     }
 
     src.OK("recipe/recipe-preview.tmpl", c, results)
+}
+
+func (rc RecipeController) GetRecipe(c *gin.Context) {
+    recipe := Recipe{
+        Name: "New Recipe",
+        Ingredients: []Ingredient{},
+        Instructions: []RecipeStep{},
+        Tags: []RecipeTag{},
+        Active: false,
+        PictureURL: "",
+        
+    }
+    object, err := rc.db.Create("recipe", recipe)
+    if err != nil {
+        fmt.Printf(err.Error())
+        src.Err(err, c)
+        return
+    }
+    var recipeSurreal SurrealRecipe
+    err = surrealdb.Unmarshal(object, &recipeSurreal)
+    if err != nil {
+        fmt.Printf(err.Error())
+        src.Err(err, c)
+        return
+    }
+
+    recipe, err = recipeSurreal.Convert(rc.db)
+    if err != nil {
+        fmt.Printf(err.Error())
+        src.Err(err, c)
+        return
+    }
+
+    src.OK("recipe/recipe-form.tmpl", c, recipe)
 }
 
 func RecipeRouter(router *gin.RouterGroup, db *surrealdb.DB) {

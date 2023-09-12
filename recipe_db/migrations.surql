@@ -7,6 +7,7 @@ DEFINE FIELD name ON recipe TYPE string ASSERT $value != NONE;
 DEFINE FIELD ingredients ON recipe TYPE array;
 DEFINE FIELD instructions ON recipe TYPE array;
 DEFINE FIELD picture_url ON recipe TYPE string ASSERT $value != NONE;
+DEFINE FIELD active ON recipe TYPE bool ASSERT $value != NONE;
 
 DEFINE FIELD name ON ingredients TYPE string ASSERT $value != NONE;
 DEFINE FIELD description ON ingredients TYPE string ASSERT $value != NONE;
@@ -196,7 +197,8 @@ CREATE recipe:abc123xyz456 CONTENT {
     tags: [
         recipe_tag:fgcrl555snthd,
         recipe_tag:aoeui626snthd
-    ]
+    ],
+    active: true
 };
 
 CREATE recipe:def789ghi123 CONTENT {
@@ -244,5 +246,6 @@ CREATE recipe:def789ghi123 CONTENT {
     tags: [
         recipe_tag:fgcrl555snthd,
         recipe_tag:lrcgf555snthd
-    ]
+    ],
+    active: true
 };

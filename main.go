@@ -21,6 +21,11 @@ func index(c *gin.Context) {
 	c.Data(http.StatusOK, "text/html; charset=utf-8", html)
 }
 
+func startNewRecipe(c *gin.Context) {
+    c.Header("Content-Type", "text/html; charset=utf-8")
+    c.HTML(http.StatusOK, "new_recipe.html", nil)
+}
+
 func main() {
 	r := gin.Default()
 
@@ -36,9 +41,11 @@ func main() {
 
 	models.RecipeRouter(&r.RouterGroup, db)
 
+    r.LoadHTMLFiles("pages/**/*", "./pages/**/*")
 	r.LoadHTMLGlob("templates/**/*")
 	r.Static("/static", "./static")
 
 	r.GET("/", index)
+    r.GET("/new-recipe", startNewRecipe)
 	r.Run(":8000")
 }

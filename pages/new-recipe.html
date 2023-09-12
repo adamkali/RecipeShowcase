@@ -6,15 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/static/js/htmx.js"></script>
     <title>Recipe Showcase - New Recipe</title>
+    <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
 </head>
-<body class="bg-slate-600 text-sky-300 ">
-    <div class="flex flex-1 justify-center w-full h-screen p-8">
-        <div class="flex flex-row text-3xl justify-center rounded-xl h-16 p-4
-            text-orange-500">
-            <span>New Recipe</span>
-        </div>
-
-
+<body
+    class="flex flex-col bg-gray-700 text-sky-300 justify-start w-full h-screen
+    align-top items-center"
+    hx-ext="response-targets"
+>
+    <div class="flex flex-row text-3xl justify-center rounded-xl h-16 p-4
+        text-orange-500 mb-4">
+        <span>New Recipe</span>
     </div>
-</body>
+    <div
+        hx-get="/start"
+        hx-target="this"
+        hx-trigger="load"
+        hx-swap="outerHTML"
+        hx-target-5*="#serious-errors"
+    >
+    </div>
+    <div id="serious-errors"></div>
+</body
 </html>
+
