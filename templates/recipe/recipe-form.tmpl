@@ -4,6 +4,7 @@
         p-4 h-full"
     >
         <div
+            id="{{ .ID }}-name"
             class="w-full mx-auto my-2 p-4 text-purple-400"
         >
             <label>New Recipe Name:&nbsp;</label>
@@ -12,17 +13,96 @@
                 name="name"
                 class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
                 value="{{ .Name }}"
-                id="{{ .ID }}-name"
                 hx-trigger="change"
                 hx-swap="#{{ .ID }}-name"
                 hx-target="outerHTML"
-                hx-put="/recipe/{{ .ID }}"
+                hx-put="/recipe/{{ .ID }}/name"
             >          
             </input>
         </div>          
         <div
-            class="w-full mx-auto my-2 p-4 text-purple-400"
+            id="{{ .ID }}-ingredients"
+            class="w-full mx-auto my-2 p-4"
         >
+            <form
+                class="flex flex-row w-full justify-evenly"
+                hx-put="/recipe/{{ .ID }}/ingriedients"
+                hx-target="outerHTML"
+                hx-swap="#{{ .ID }}-ingredients"
+            >
+                <div
+                    class="w-1/3 mx-auto my-2 p-4"
+                >
+                    <label
+                        class="text-purple-400"
+                    >
+                        Name
+                    </label>
+                    <input
+                        type="text"
+                        name="name"
+                        class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
+                        value="San Marzano Tomatoes"
+                    >
+                    </input>
+                </div>
+                <div
+                    class="w-1/3 mx-auto my-2 p-4"
+                >
+                    <label
+                        class="text-purple-400"
+                    >
+                        Description
+                    </label>
+                    <input
+                        type="text"
+                        name="description"
+                        class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
+                        value="About 4-5 peeled tomatoes"
+                    >
+                    </input>
+                </div>
+                <div
+                    class="w-1/3 mx-auto my-2 p-4"
+                >
+                    <label
+                        for="tag-select"
+                        class="text-purple-400"
+                    >
+                        Tag 
+                    </label>
+                    <select
+                        id="tag-select"
+                        name="tag"
+                        class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
+                    >
+                        <option value="Prep">Prep</option>
+                        <option value="Cooking">Cooking</option>
+                        <option value="Plating">Plating</option>
+                    </select>
+                </div>
+                <button
+                    type="submit"
+                    class="grid grid-cols-3 bg-orange-600 text-lg text-slate-200 hover:scale-110
+                    ease-in-out duration-150 transition-all" 
+                >
+                    <img
+                        src="/static/images/add.svg"
+                        class="w-16 h-16"
+                    ></img>
+                    <span
+                        class="w-full"
+                    >
+                        Add Ingredient 
+                    </span>
+                </button>
+            </form>
+            {{ $recipeLength = len .Ingredients }}{{ if eq $recipeLength 0 }}
+                <span>
+                    No Ingredients saved yet.
+                </span>
+            {{ else }}
+            {{ end }}
         </div>
         <div
             class="flex flex-row justify-evenly"
