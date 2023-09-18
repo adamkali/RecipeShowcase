@@ -16,6 +16,12 @@ func Err(what error, c *gin.Context) {
     })
 }
 
+func ErrWithCode(what error, c *gin.Context, code int) {
+    c.HTML(code, "utils/error_template.tmpl", ErrorType{
+        ErrorMessage: what.Error(),
+    })
+}
+
 func OK(templ string, c *gin.Context, what interface{}) {
     c.HTML(200, templ, what) 
 }
@@ -64,3 +70,4 @@ func Migrate() (*surrealdb.DB, error) {
 
     return db, nil
 }
+

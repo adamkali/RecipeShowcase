@@ -1,0 +1,56 @@
+{{ define "tags/tag-selector" }}
+    <div 
+        id="{{ .ID }}-tag-selector"
+        class="w-full mx-auto my-2 p-4 text-purple-400"
+    >
+        <label
+            for="{{ .ID }}-tag-selector-input"
+            class="block text-sm font-medium text-slate-400"
+        >
+            Select a Tag 
+        </label>
+        <select
+            id="{{ .ID }}-tag-selector-input"
+            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+            hx-put="/recipe/{{ .ID }}-tags"
+            hx-trigger="change"
+            hx-target="#{{ .ID }}-tag-selector"
+            hx-swap="outerHTML"
+        >
+            {{ range .Tags }}
+                <option
+                    value="{{ .ID }}"
+                >
+                    {{ if eq .ID "recipe_tag:00cge9564nt0d" }}
+                    <span class="rounded-full bg-blue-400 text-blue-600 px-2 py-1 text-sm">
+                    </span>
+                    {{ else if eq .ID "recipe_tag:aoeui626snthd" }}
+                    <span class="rounded-full bg-fuchsia-400 text-sky-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555dhtns" }}
+                    <span class="rounded-full bg-orange-500 text-orange-300 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555snthd" }}
+                    <span class="rounded-full bg-amber-700 text-amber-100 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555vwmbx" }}
+                    <span class="rounded-full bg-pink-400 text-red-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:lrc44555sntao" }};
+                    <span class="rounded-full bg-orange-950 text-slate-100 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:lrcgf555snthd" }}
+                    <span class="rounded-full bg-purple-800 text-red-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ end }}
+                </option>
+            {{ end }}
+        </select>
+    </div>
+{{ end }}

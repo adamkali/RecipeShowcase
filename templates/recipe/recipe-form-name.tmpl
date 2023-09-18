@@ -1,19 +1,27 @@
 {{ define "recipe/recipe-form-name.tmpl" }}
-<div
-    id="{{ .ID }}-name"
-    class="w-full mx-auto my-2 p-4 text-purple-400"
->
-    <label>New Recipe Name:&nbsp;</label>
-    <input
-        type="text"
-        name="name"
-        class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
-        value="{{ .Name }}"
-        hx-trigger="change"
-        hx-swap="#{{ .ID }}-name"
-        hx-target="outerHTML"
-        hx-put="/recipe/{{ .ID }}/name"
-    >          
-    </input>
-</div>          
+    <div
+        id="{{ .ID }}-name"
+        class="w-full mx-auto my-2 p-4 text-purple-400"
+    >
+        <label>New Recipe Name:&nbsp;</label>
+        <input
+            type="text"
+            name="name"
+            class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
+            value="{{ .Name }}"
+        >          
+        </input>
+        <button
+            hx-trigger="clik"
+            hx-swap="#{{ .ID }}-name"
+            hx-target="outerHTML"
+            hx-put="/recipe/{{ .ID }}/name"
+        >
+            <img
+                src="/static/images/save.svg"
+                class="w-16 h-16"
+            ></img>
+            Save Name
+        </button>
+    </div>          
 {{ end }}

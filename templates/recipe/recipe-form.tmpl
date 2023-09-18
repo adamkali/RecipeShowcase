@@ -1,5 +1,6 @@
 {{ define "recipe/recipe-form.tmpl" }}
     <div
+        id="{{ .ID }}-form"
         class="flex flex-col w-2/3 mx-auto bg-gray-600 rounded-lg shadow-slate-900 shadow-lg
         p-4 h-full"
     >
@@ -13,12 +14,20 @@
                 name="name"
                 class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
                 value="{{ .Name }}"
-                hx-trigger="change"
+            >          
+            </input>
+            <button
+                hx-trigger="clik"
                 hx-swap="#{{ .ID }}-name"
                 hx-target="outerHTML"
                 hx-put="/recipe/{{ .ID }}/name"
-            >          
-            </input>
+            >
+                <img
+                    src="/static/images/save.svg"
+                    class="w-16 h-16"
+                ></img>
+                Save Name
+            </button>
         </div>          
         <div
             id="{{ .ID }}-ingredients"
@@ -47,7 +56,7 @@
                     </input>
                 </div>
                 <div
-                    class="w-1/3 mx-auto my-2 p-4"
+                    class="w-2/3 mx-auto my-2 p-4"
                 >
                     <label
                         class="text-purple-400"
@@ -62,6 +71,66 @@
                     >
                     </input>
                 </div>
+                <button
+                    type="submit"
+                    class="grid grid-cols-3 bg-orange-600 text-lg text-slate-200 hover:scale-110
+                    ease-in-out duration-150 transition-all" 
+                >
+                    <img
+                        src="/static/images/add.svg"
+                        class="w-16 h-16"
+                    ></img>
+                    <span
+                        class="w-full"
+                    >
+                        Add Ingredient 
+                    </span>
+                </button>
+            </form>
+            {{ $recipeLength := len .Ingredients }}{{ if eq $recipeLength 0 }}
+                <span>
+                    No Ingredients saved yet.
+                </span>
+            {{ else }}
+                {{ range .Ingredients }}
+                <div class="flex flex-row justify-evenly rounded-lg bg-slate-400">
+                    <div class="flex flex-1 justify-center w-2/5">
+                        <span class="align-middle text text-purple-400">{{ .Name }}</span>
+                    </div>
+                    <div class="flex flex-1 justify-center w-3/5">
+                        <span class="align-middle text text-cyan-400">{{ .Description }}</span>
+                    </div>
+                </div>
+                {{ end }}
+            {{ end }}
+        </div>
+        <div
+            id="{{ .ID }}-step"
+            class="w-full mx-auto my-2 p-4"
+        >
+            <form
+                class="flex flex-row w-full h-48 justify-evenly items-center"
+                hx-put="/recipe/{{ .ID }}/steps"
+                hx-target="outerHTML"
+                hx-swap="#{{ .ID }}-step"
+            >
+                <div
+                    class="w-1/3 h-1/2 mx-auto my-2 p-4 "
+                >
+                    <label
+                        class="text-purple-400"
+                    >
+                       Recipe Step 
+                    </label>
+                    <textarea
+                        name="step"
+                        class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
+                        value="Add a Step..."
+                        cols="40"
+                        rows="3"
+                    >
+                    </textarea>
+                </div>
                 <div
                     class="w-1/3 mx-auto my-2 p-4"
                 >
@@ -69,11 +138,11 @@
                         for="tag-select"
                         class="text-purple-400"
                     >
-                        Tag 
+                        Recipe Step Type
                     </label>
                     <select
                         id="tag-select"
-                        name="tag"
+                        name="type"
                         class="p-2 mx-auto my-2 bg-gray-600 text-sky-400"
                     >
                         <option value="Prep">Prep</option>
@@ -93,15 +162,94 @@
                     <span
                         class="w-full"
                     >
-                        Add Ingredient 
+                        Add Recipe Step
                     </span>
                 </button>
             </form>
-            {{ $recipeLength = len .Ingredients }}{{ if eq $recipeLength 0 }}
+            {{ $recipeLength := len .RecipeStep }}{{ if eq $recipeLength 0 }}
                 <span>
-                    No Ingredients saved yet.
+                    No Recipe Steps saved yet.
                 </span>
             {{ else }}
+                {{ range .RecipeStep }}
+                <div class="flex flex-row justify-evenly rounded-lg bg-slate-400">
+                    <div class="flex flex-1 justify-center w-2/5">
+                        <span class="align-middle text text-purple-600">{{ .Step }}</span>
+                    </div>
+                    {{ if eq .Type "Prep" }}
+                        <div class="flex flex-1 justify-center w-3/5">
+                            <span class="align-middle text text-green-600">{{ .Type }}</span>
+                        </div>
+                    {{ else if eq .Type "Cooking" }}
+                        <div class="flex flex-1 justify-center w-3/5">
+                            <span class="align-middle text text-red-600">{{ .Type }}</span>
+                        </div>
+                    {{ else }}
+                        <div class="flex flex-1 justify-center w-3/5">
+                            <span class="align-middle text text-pink-600">{{ .Type }}</span>
+                        </div>
+                    {{ end }}
+                </div>
+                {{ end }}
+            {{ end }}
+        </div>
+        <div
+            id="{{ .ID }}-tags"
+            class="w-full mx-auto my-2 p-4"
+        >
+            <div
+                class="w-1/3 mx-auto my-2 p-4"
+            >
+                <label
+                    class="text-purple-400"
+                    for=""
+                >
+                    Add a Tag to Define What a Dish Taste Likes or How it Feels!
+                </label>
+                <div
+                    hx-get="/tags"
+                    hx-target="this"
+                    hx-trigger="load"
+                    hx-swap="outerHTML"
+                    hx-target-500="#serious-errors"
+                >
+                </div>
+            </div>
+            {{ $recipeLength := len .Tags }}{{ if eq $recipeLength 0 }}
+                <span>
+                    No Tags saved yet.
+                </span>
+            {{ else }}
+                {{ range .Tags }}
+                    {{ if eq .ID "recipe_tag:00cge9564nt0d" }}
+                    <span class="rounded-full bg-blue-400 text-blue-600 px-2 py-1 text-sm">
+                    </span>
+                    {{ else if eq .ID "recipe_tag:aoeui626snthd" }}
+                    <span class="rounded-full bg-fuchsia-400 text-sky-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555dhtns" }}
+                    <span class="rounded-full bg-orange-500 text-orange-300 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555snthd" }}
+                    <span class="rounded-full bg-amber-700 text-amber-100 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:fgcrl555vwmbx" }}
+                    <span class="rounded-full bg-pink-400 text-red-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:lrc44555sntao" }};
+                    <span class="rounded-full bg-orange-950 text-slate-100 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ else if eq .ID "recipe_tag:lrcgf555snthd" }}
+                    <span class="rounded-full bg-purple-800 text-red-600 px-2 py-1 text-sm">
+                        {{ .Name }}
+                    </span>
+                    {{ end }}
+                {{ end }}
             {{ end }}
         </div>
         <div
@@ -113,6 +261,9 @@
                 <button
                    class="grid grid-cols-3 bg-orange-600 text-lg text-slate-200 hover:scale-110
                    ease-in-out duration-150 transition-all" 
+                   hx-post="/recipe/{{ .ID }}"
+                   hx-target="outerHTML"
+                   hx-swap="#{{ .ID }}-form"
                 >
                     <img
                         src="/static/images/save.svg"
@@ -140,7 +291,7 @@
                     </span>
                 </button> 
             </div>
-            <span class"text-slate-400">Save the recipe, to make it show up in
+            <span class="text-slate-400">Save the recipe, to make it show up in
             your list. You can edit it when clicking on the recipe later.
             Deleting the Recipe will delete it forever so be careful</span>
         </div>          

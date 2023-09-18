@@ -1,0 +1,61 @@
+{{ define "recipe/recipe-form-tags.tmpl" }}
+    <div
+        id="{{ .ID }}-tags"
+        class="w-full mx-auto my-2 p-4"
+    >
+        <div
+            class="w-1/3 mx-auto my-2 p-4"
+        >
+            <label
+                class="text-purple-400"
+                for=""
+            >
+                Add a Tag to Define What a Dish Taste Likes or How it Feels!
+            </label>
+            <div
+                hx-get="/tags?recipe_id={{ .ID }}"
+                hx-target="this"
+                hx-trigger="load"
+                hx-swap="outerHTML"
+                hx-target-500="#serious-errors"
+            >
+            </div>
+        </div>
+        {{ $recipeLength := len .Tags }}{{ if eq $recipeLength 0 }}
+            <span>
+                No Tags saved yet.
+            </span>
+        {{ else }}
+            {{ range .Tags }}
+                {{ if eq .ID "recipe_tag:00cge9564nt0d" }}
+                <span class="rounded-full bg-blue-400 text-blue-600 px-2 py-1 text-sm">
+                </span>
+                {{ else if eq .ID "recipe_tag:aoeui626snthd" }}
+                <span class="rounded-full bg-fuchsia-400 text-sky-600 px-2 py-1 text-sm">
+                    {{ .Name }}
+                </span>
+                {{ else if eq .ID "recipe_tag:fgcrl555dhtns" }}
+                <span class="rounded-full bg-orange-500 text-orange-300 px-2 py-1 text-sm">
+                    {{ .Name }}
+                </span>
+                {{ else if eq .ID "recipe_tag:fgcrl555snthd" }}
+                <span class="rounded-full bg-amber-700 text-amber-100 px-2 py-1 text-sm">
+                    {{ .Name }}
+                </span>
+                {{ else if eq .ID "recipe_tag:fgcrl555vwmbx" }}
+                <span class="rounded-full bg-pink-400 text-red-600 px-2 py-1 text-sm">
+                    {{ .Name }}
+                </span>
+                {{ else if eq .ID "recipe_tag:lrc44555sntao" }};
+                <span class="rounded-full bg-orange-950 text-slate-100 px-2 py-1 text-sm">
+                    {{ .Name }}
+                </span>
+                {{ else if eq .ID "recipe_tag:lrcgf555snthd" }}
+                <span class="rounded-full bg-purple-800 text-red-600 px-2 py-1 text-sm">
+                    {{ .Name }}
+                </span>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    </div>
+{{ end }}
